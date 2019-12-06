@@ -10,4 +10,5 @@ Then you can execute test using 'mvn clean test' command from terminal
 To view the test results allure need to be installed on your PC.
 For generating test results in command window enter allure serve
 and way to your allure results directory
+
 (for example: allure serve C:\Users\Redbutton\IdeaProjects\googleForm\allure-results)
