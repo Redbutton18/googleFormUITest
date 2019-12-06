@@ -7,11 +7,9 @@ import googleForm.steps.BaseActionsWithForm;
 import io.qameta.allure.TmsLink;
 import org.openqa.selenium.NoAlertPresentException;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import static com.codeborne.selenide.Selenide.*;
-import static com.codeborne.selenide.Selenide.sleep;
 import static googleForm.dataGenerator.UserDataGenerator.getFakerEmailAddress;
 import static googleForm.dataGenerator.UserDataGenerator.getFakerFirstName;
 import static org.testng.Assert.assertEquals;
@@ -160,7 +158,7 @@ public class GoogleFormTest extends BaseTest {
     }
 
     @TmsLink(value = "12")
-    @Test(description = "Enter More Then Max Length Name In 'Your Name' Field")
+    @Test(description = "Enter More Then Max Length Name In 'Your Name' Field Test")
     public void testEnterMoreThenMaxLengthNameInYourNameField() {
         baseActionsWithForm.specifyDefaultUserData(email, "Asdfghjklqwertyuiopzx");
         formPage.specifyDate("03012001");
@@ -183,4 +181,48 @@ public class GoogleFormTest extends BaseTest {
         String checkBoxError = formPage.emptyCheckBoxError.getText();
         assertEquals(checkBoxError, "Выберите один чек бокс!");
     }
+
+    @TmsLink(value = "14")
+    @Test(description = "Enter Not Correct Email In 'Email' Field Test")
+    public void testEnterNotCorrectEmailInEmailField() {
+        baseActionsWithForm.specifyDefaultUserData("sfasfaa@d.d", userName);
+        formPage.specifyDate("03012004");
+        formPage.clickOnCheckBoxVeryBad();
+        formPage.clickOnSendButton();
+        formPage.nonCorrectEmailErrorText.shouldBe(Condition.visible);
+    }
+
+    @TmsLink(value = "15") //TODO: 06.12.19 bug #10
+    @Test(description = "Enter Copy/Paste From Address Book With Name In 'Email' Field Test")
+    public void testEnterCopyPasteFromAddressBookWithNameInEmailField() {
+        baseActionsWithForm.specifyDefaultUserData("Joe Smith <email@domain.com>", userName);
+        formPage.specifyDate("23102012");
+        formPage.clickOnCheckBoxVeryBad();
+        formPage.clickOnSendButton();
+        formPage.nonCorrectEmailErrorText.shouldBe(Condition.visible);
+    }
+
+    @TmsLink(value = "20") //TODO: 06.12.19 bug #15
+    @Test(description = "Specify Min Date In Calendar Test")
+    public void testSpecifyMinDateInCalendar() {
+        baseActionsWithForm.specifyDefaultUserData(email, userName);
+        formPage.specifyDate("01010001");
+        formPage.clickOnCheckBoxVeryBad();
+        formPage.clickOnSendButton();
+        String dateError = formPage.dateFieldError.getText();
+        assertEquals(dateError, "Что то типа введите корректную дату");
+    }
+
+    @TmsLink(value = "21") //TODO: 06.12.19 bug #16
+    @Test(description = "Specify Max Date In Calendar Test")
+    public void testSpecifyMaxDateInCalendar() {
+        baseActionsWithForm.specifyDefaultUserData(email, userName);
+        formPage.specifyDate("0909999999");
+        formPage.clickOnCheckBoxExcellent();
+        formPage.clickOnSendButton();
+        String dateError = formPage.dateFieldError.getText();
+        assertEquals(dateError, "Что то типа введите корректную дату");
+    }
+
+
 }
