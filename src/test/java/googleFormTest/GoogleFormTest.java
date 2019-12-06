@@ -14,6 +14,7 @@ import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Selenide.sleep;
 import static googleForm.dataGenerator.UserDataGenerator.getFakerEmailAddress;
 import static googleForm.dataGenerator.UserDataGenerator.getFakerFirstName;
+import static org.testng.Assert.assertEquals;
 
 public class GoogleFormTest extends BaseTest {
 
@@ -128,7 +129,7 @@ public class GoogleFormTest extends BaseTest {
 
     @TmsLink(value = "7")
     @Test(description = "Enter Spaces In 'YourName' Field Test")
-    public void testSEnterSpacesInYourNameField(){
+    public void testEnterSpacesInYourNameField(){
         baseActionsWithForm.specifyDefaultUserData(email, "       ");
         formPage.specifyDate("22112210");
         formPage.clickOnCheckBoxVeryBad();
@@ -136,5 +137,50 @@ public class GoogleFormTest extends BaseTest {
         formPage.emptyFieldErrorText.shouldBe(Condition.visible);
     }
 
+    @TmsLink(value = "8") //TODO: 06.12.19 bug #4
+    @Test(description = "Enter Only Numbers In 'YourName' Field Test")
+    public void testEnterOnlyNumbersInYourNameField(){
+        baseActionsWithForm.specifyDefaultUserData(email, "123456789");
+        formPage.specifyDate("23121998");
+        formPage.clickOnCheckCouldBeBetter();
+        formPage.clickOnSendButton();
+        String errorNameField = formPage.yourNameFieldError.getText();
+        assertEquals(errorNameField, "Имя не может содержать только цифры!");
+    }
 
+    @TmsLink(value = "9") //TODO: 06.12.19 bug #5
+    @Test(description = "Enter Only Special Characters In 'YourName' Field Test")
+    public void testEnterOnlySpecialCharactersInYourNameField(){
+        baseActionsWithForm.specifyDefaultUserData(email, "!@#$%&*()<>");
+        formPage.specifyDate("14011999");
+        formPage.clickOnCheckCouldBeBetter();
+        formPage.clickOnSendButton();
+        String errorNameField = formPage.yourNameFieldError.getText();
+        assertEquals(errorNameField, "Имя не может содержать только спецсимволы!");
+    }
+
+    @TmsLink(value = "12")
+    @Test(description = "Enter More Then Max Length Name In 'Your Name' Field")
+    public void testEnterMoreThenMaxLengthNameInYourNameField() {
+        baseActionsWithForm.specifyDefaultUserData(email, "Asdfghjklqwertyuiopzx");
+        formPage.specifyDate("03012001");
+        formPage.clickOnCheckBoxVeryBad();
+        formPage.clickOnSendButton();
+        formPage.tooLongNameError.shouldBe(Condition.visible);
+    }
+
+    @TmsLink(value = "13") //TODO: 06.12.19 bug #9
+    @Test(description = "Choose All CheckBoxes 'How is your mood' Test")
+    public void testChooseAllCheckBoxesHowIsYourMood() {
+        baseActionsWithForm.specifyDefaultUserData(email, userName);
+        formPage.specifyDate("13112011");
+        formPage.clickOnCheckBoxExcellent();
+        formPage.clickOnCheckBoxGoodEnough();
+        formPage.clickOnCheckCouldBeBetter();
+        formPage.clickOnCheckBoxVeryBad();
+        formPage.clickOnCheckBoxAnotherAndWriteText("Some text");
+        formPage.clickOnSendButton();
+        String checkBoxError = formPage.emptyCheckBoxError.getText();
+        assertEquals(checkBoxError, "Выберите один чек бокс!");
+    }
 }
