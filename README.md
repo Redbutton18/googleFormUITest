@@ -2,7 +2,7 @@ Simple project for "Google Form" testing
 
 Project for demonstration QA Automation
 
-Contains 13 tests of https://goo.gl/forms/t16Uov7ZHXCrB2ZE2
+Contains 18 tests of https://goo.gl/forms/t16Uov7ZHXCrB2ZE2
 
 To execute test you need Java and Maven to be installed on your PC.
 Then you can execute test using 'mvn clean test site' command from terminal
