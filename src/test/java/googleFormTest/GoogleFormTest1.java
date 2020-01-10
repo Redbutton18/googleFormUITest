@@ -14,7 +14,7 @@ import static googleForm.dataGenerator.UserDataGenerator.getFakerEmailAddress;
 import static googleForm.dataGenerator.UserDataGenerator.getFakerFirstName;
 import static org.testng.Assert.assertEquals;
 
-public class GoogleFormTest extends BaseTest {
+public class GoogleFormTest1 extends BaseTest {
 
     FormPage formPage = new FormPage();
     BaseActionsWithForm baseActionsWithForm = new BaseActionsWithForm();
