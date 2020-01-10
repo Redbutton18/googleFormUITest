@@ -1,0 +1,5 @@
+# Created by .ignore support plugin (hsz.mobi)
+.allure/
+.gitignore
+allure-results/
+target/
