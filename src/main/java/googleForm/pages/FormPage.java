@@ -23,12 +23,12 @@ public class FormPage {
     private SelenideElement inputCheckBoxAnotherRus = $("input[aria-label=\"Другой ответ\"]");
     private SelenideElement sendButton = $("#mG61Hd > div > div > div.freebirdFormviewerViewNavigationNavControls > div.freebirdFormviewerViewNavigationButtonsAndProgress > div > div > span");
 
-    public SelenideElement dateFieldError = $("#i\\.err\\.404367803");
     public SelenideElement yourNameFieldError = $("div[id=\"i.err.404367803\"]");
     public SelenideElement emptyCheckBoxError = $("#i\\.err\\.1001784558");
     public SelenideElement emptyFieldErrorText = $x("//div[contains(text(),\"Это обязательный вопрос.\")]");
     public SelenideElement nonCorrectEmailErrorText = $x("//div[contains(text(),\"Укажите действительный адрес эл. почты\")]");
     public SelenideElement tooLongNameError = $x("//div[contains(text(),\"Текст превышает 20 символов.\")]");
+    public SelenideElement notCorrectData = $(".freebirdFormviewerComponentsQuestionBaseErrorIcon");
 
     @Step
     public void specifyEmail(String email) {
