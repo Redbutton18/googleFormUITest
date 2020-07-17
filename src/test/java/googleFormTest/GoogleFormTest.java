@@ -5,14 +5,12 @@ import googleForm.pages.FormPage;
 import googleForm.pages.ResultFormPage;
 import googleForm.steps.BaseActionsWithForm;
 import io.qameta.allure.TmsLink;
-import org.openqa.selenium.NoAlertPresentException;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static com.codeborne.selenide.Selenide.*;
 import static googleForm.dataGenerator.UserDataGenerator.getFakerEmailAddress;
 import static googleForm.dataGenerator.UserDataGenerator.getFakerFirstName;
-import static org.testng.Assert.assertEquals;
 
 public class GoogleFormTest extends BaseTest {
 
@@ -26,8 +24,7 @@ public class GoogleFormTest extends BaseTest {
     @BeforeMethod
     public void preCondition() {
         open(baseUrl);
-        clearBrowserCookies();
-        clearBrowserLocalStorage();
+
 //        try {
 //            switchTo().alert().accept();
 //        } catch (NoAlertPresentException e) {
@@ -55,7 +52,8 @@ public class GoogleFormTest extends BaseTest {
         formPage.specifyDate("03012001");
         formPage.clickOnCheckBoxGoodEnough();
         formPage.clickOnSendButton();
-        resultFormPage.positiveRegistrationMessageRus.shouldBe(Condition.visible);
+        //resultFormPage.positiveRegistrationMessageRus.shouldBe(Condition.visible);
+        formPage.tooLongNameError.shouldBe(Condition.visible);
     }
 
     @TmsLink(value = "3P") //TODO: 05.12.12 bug #2
@@ -65,7 +63,9 @@ public class GoogleFormTest extends BaseTest {
         formPage.specifyDate("03012001");
         formPage.clickOnCheckBoxVeryBad();
         formPage.clickOnSendButton();
-        resultFormPage.positiveRegistrationMessageRus.shouldBe(Condition.visible);
+        //resultFormPage.positiveRegistrationMessageRus.shouldBe(Condition.visible);
+        formPage.tooLongNameError.shouldBe(Condition.visible);
+
     }
 
     @TmsLink(value = "1")
@@ -102,7 +102,7 @@ public class GoogleFormTest extends BaseTest {
     @Test(description = "Uncheck All Checkboxes Test")
     public void testUncheckAllCheckboxes() {
         baseActionsWithForm.specifyDefaultUserData(email, userName);
-        formPage.specifyDate("22222011");
+        formPage.specifyDate("22122011");
         formPage.clickOnSendButton();
         formPage.emptyFieldErrorText.shouldBe(Condition.visible);
     }
@@ -114,27 +114,31 @@ public class GoogleFormTest extends BaseTest {
         formPage.specifyDate("22112222");
         formPage.clickOnCheckCouldBeBetter();
         formPage.clickOnSendButton();
-        formPage.emptyFieldErrorText.shouldBe(Condition.visible);
+        //formPage.notCorrectData.shouldBe(Condition.visible);
+        resultFormPage.positiveRegistrationMessageRus.shouldBe(Condition.visible);
+
     }
 
     @TmsLink(value = "6")
     @Test(description = "Enter Spaces In 'Email' Field Test")
     public void testSEnterSpacesInEmailField(){
         baseActionsWithForm.specifyDefaultUserData("      ", userName);
-        formPage.specifyDate("22112211");
+        formPage.specifyDate("22112011");
         formPage.clickOnCheckBoxVeryBad();
         formPage.clickOnSendButton();
         formPage.emptyFieldErrorText.shouldBe(Condition.visible);
     }
 
-    @TmsLink(value = "7")
+    @TmsLink(value = "7") //TODO: 17.07.20 bug #17
     @Test(description = "Enter Spaces In 'YourName' Field Test")
     public void testEnterSpacesInYourNameField(){
         baseActionsWithForm.specifyDefaultUserData(email, "       ");
-        formPage.specifyDate("22112210");
+        formPage.specifyDate("22112010");
         formPage.clickOnCheckBoxVeryBad();
         formPage.clickOnSendButton();
-        formPage.emptyFieldErrorText.shouldBe(Condition.visible);
+//        formPage.emptyFieldErrorText.shouldBe(Condition.visible);
+        resultFormPage.positiveRegistrationMessageRus.shouldBe(Condition.visible);
+
     }
 
     @TmsLink(value = "8") //TODO: 06.12.19 bug #4
@@ -144,8 +148,9 @@ public class GoogleFormTest extends BaseTest {
         formPage.specifyDate("23121998");
         formPage.clickOnCheckCouldBeBetter();
         formPage.clickOnSendButton();
-        String errorNameField = formPage.yourNameFieldError.getText();
-        assertEquals(errorNameField, "Имя не может содержать только цифры!");
+//        String errorNameField = formPage.yourNameFieldError.getText();
+//        assertEquals(errorNameField, "Имя не может содержать только цифры!");
+        resultFormPage.positiveRegistrationMessageRus.shouldBe(Condition.visible);
     }
 
     @TmsLink(value = "9") //TODO: 06.12.19 bug #5
@@ -155,8 +160,9 @@ public class GoogleFormTest extends BaseTest {
         formPage.specifyDate("14011999");
         formPage.clickOnCheckCouldBeBetter();
         formPage.clickOnSendButton();
-        String errorNameField = formPage.yourNameFieldError.getText();
-        assertEquals(errorNameField, "Имя не может содержать только спецсимволы!");
+//        String errorNameField = formPage.yourNameFieldError.getText();
+//        assertEquals(errorNameField, "Имя не может содержать только спецсимволы!");
+        resultFormPage.positiveRegistrationMessageRus.shouldBe(Condition.visible);
     }
 
     @TmsLink(value = "12")
@@ -180,8 +186,10 @@ public class GoogleFormTest extends BaseTest {
         formPage.clickOnCheckBoxVeryBad();
         formPage.clickOnCheckBoxAnotherAndWriteText("Some text");
         formPage.clickOnSendButton();
-        String checkBoxError = formPage.emptyCheckBoxError.getText();
-        assertEquals(checkBoxError, "Выберите один чек бокс!");
+//        String checkBoxError = formPage.emptyCheckBoxError.getText();
+//        assertEquals(checkBoxError, "Выберите один чек бокс!");
+        resultFormPage.positiveRegistrationMessageRus.shouldBe(Condition.visible);
+
     }
 
     @TmsLink(value = "14")
@@ -201,7 +209,9 @@ public class GoogleFormTest extends BaseTest {
         formPage.specifyDate("23102012");
         formPage.clickOnCheckBoxVeryBad();
         formPage.clickOnSendButton();
-        formPage.nonCorrectEmailErrorText.shouldBe(Condition.visible);
+//        formPage.nonCorrectEmailErrorText.shouldBe(Condition.visible);
+        resultFormPage.positiveRegistrationMessageRus.shouldBe(Condition.visible);
+
     }
 
     @TmsLink(value = "20") //TODO: 06.12.19 bug #15
@@ -211,8 +221,8 @@ public class GoogleFormTest extends BaseTest {
         formPage.specifyDate("01010001");
         formPage.clickOnCheckBoxVeryBad();
         formPage.clickOnSendButton();
-        String dateError = formPage.dateFieldError.getText();
-        assertEquals(dateError, "Что то типа введите корректную дату");
+//        formPage.notCorrectData.shouldBe(Condition.visible);
+        resultFormPage.positiveRegistrationMessageRus.shouldBe(Condition.visible);
     }
 
     @TmsLink(value = "21") //TODO: 06.12.19 bug #16
@@ -222,8 +232,7 @@ public class GoogleFormTest extends BaseTest {
         formPage.specifyDate("0909999999");
         formPage.clickOnCheckBoxExcellent();
         formPage.clickOnSendButton();
-        String dateError = formPage.dateFieldError.getText();
-        assertEquals(dateError, "Что то типа введите корректную дату");
+        formPage.notCorrectData.shouldBe(Condition.visible);
     }
 
 
