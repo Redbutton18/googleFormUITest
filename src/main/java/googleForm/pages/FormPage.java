@@ -2,15 +2,17 @@ package googleForm.pages;
 
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
 
 public class FormPage {
 
-    private SelenideElement emailField = $("input[name=\"emailAddress\"]");
+    private SelenideElement emailField = $("input[type='email']");
     private SelenideElement dateField = $("input[type=\"date\"]");
-    private SelenideElement yourNameField = $("input[aria-label=\"Your name:\"]");
+    private SelenideElement yourNameField = $("div.quantumWizTextinputPaperinputInputArea > input[type='text']");
     private SelenideElement checkBoxExcellent = $("div[aria-label=\"Excellent\"]");
     private SelenideElement checkBoxGoodEnough = $("div[aria-label=\"Good enough\"]");
     private SelenideElement checkBoxCouldBeBetter = $("div[aria-label=\"Could be better\"]");

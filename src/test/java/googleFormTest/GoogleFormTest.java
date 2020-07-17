@@ -26,14 +26,16 @@ public class GoogleFormTest extends BaseTest {
     @BeforeMethod
     public void preCondition() {
         open(baseUrl);
-        try {
-            switchTo().alert().accept();
-        } catch (NoAlertPresentException e) {
-            e.printStackTrace();
-        } finally {
-            clearBrowserCookies();
-            clearBrowserLocalStorage();
-        }
+        clearBrowserCookies();
+        clearBrowserLocalStorage();
+//        try {
+//            switchTo().alert().accept();
+//        } catch (NoAlertPresentException e) {
+//            e.printStackTrace();
+//        } finally {
+//            clearBrowserCookies();
+//            clearBrowserLocalStorage();
+//        }
     }
 
     @TmsLink(value = "1P")
